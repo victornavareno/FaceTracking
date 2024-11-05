@@ -1,4 +1,4 @@
-# Avoid the Squares Game
+# Face Tracking APP using OpenCV and MediaPipe
 
 An engaging game where the player must avoid randomly moving objects. The player’s movement is controlled by tracking their face in real-time using their computer’s camera.
 
