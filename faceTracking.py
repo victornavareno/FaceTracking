@@ -17,12 +17,13 @@ pygame.display.set_caption("Avoid the Red Squares")
 # Colors
 BLUE = (0, 0, 255)
 
-# Player square dimensions
+# PLAYER SQUARE DIMENSION
 PLAYER_SIZE = 20
 
-# Enemy square dimensions
-MAX_ENEMIES = 4  # Maximum number of red squares
+# ENEMY STATS
+MAX_ENEMIES = 4  # NUMBER OF ENEMIES ON THE SCREEN
 ENEMY_SIZE = 40
+ENEMY_SPEED = 5 # SPEED OF THE ENEMY:  1 is the default value 4 IS CRAAAZY FAST 
 
 RED = (255, 0, 0)
 
@@ -55,7 +56,7 @@ def check_collisions(player_pos, enemies):
     return False
 
 # Create a list of enemies
-enemies = [enemy.Enemy(ENEMY_SIZE, WIDTH, HEIGHT, screen) for _ in range(MAX_ENEMIES)]
+enemies = [enemy.Enemy(ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen) for _ in range(MAX_ENEMIES)]
 
 # Main game loop
 game_over = False
@@ -75,7 +76,7 @@ while not game_over:
 
     # Resize and flip the frame to fit the game window
     frame = cv2.resize(frame, (WIDTH, HEIGHT))
-    frame = cv2.flip(frame, 1)  # Flip horizontally to act like a mirror
+    # frame = cv2.flip(frame, 1)  # Flip horizontally to act like a mirror
 
     # Convert the frame to RGB for MediaPipe processing
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

@@ -5,11 +5,12 @@ class Enemy:
     ENEMY_COLOR = (255, 0, 0)
     
 
-    def __init__(self, ENEMY_SIZE, WIDTH, HEIGHT, screen):
+    def __init__(self, ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen):
 
         self.ENEMY_SIZE = ENEMY_SIZE
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
+        self.SPEED = ENEMY_SPEED
         self.screen = screen
         
 
@@ -22,8 +23,8 @@ class Enemy:
 
     def move(self):
         # Move the enemy
-        self.x += self.vx
-        self.y += self.vy
+        self.x += self.SPEED * self.vx
+        self.y += self.SPEED * self.vy
         # Bounce off walls
         if self.x <= 0 or self.x >= self.WIDTH - self.ENEMY_SIZE:
             self.vx = -self.vx
