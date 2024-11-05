@@ -39,33 +39,6 @@ cap = cv2.VideoCapture(0)  # 0 is typically the default camera
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
 
-# class Enemy:
-#     def __init__(self):
-#         # Random initial position for the enemy within screen boundaries
-#         self.x = random.randint(0, WIDTH - ENEMY_SIZE)
-#         self.y = random.randint(0, HEIGHT - ENEMY_SIZE)
-#         # Random velocity for movement
-#         self.vx = random.choice([-3, -2, 2, 3])
-#         self.vy = random.choice([-3, -2, 2, 3])
-
-#     def move(self):
-#         # Move the enemy
-#         self.x += self.vx
-#         self.y += self.vy
-#         # Bounce off walls
-#         if self.x <= 0 or self.x >= WIDTH - ENEMY_SIZE:
-#             self.vx = -self.vx
-#         if self.y <= 0 or self.y >= HEIGHT - ENEMY_SIZE:
-#             self.vy = -self.vy
-
-#     def draw(self):
-#         # Draw the enemy on the screen
-#         pygame.draw.rect(screen, RED, (self.x, self.y, ENEMY_SIZE, ENEMY_SIZE))
-
-#     def get_position(self):
-#         # Return the current position of the enemy
-#         return [self.x, self.y]
-
 def detect_collision(player_pos, enemy_pos):
     px, py = player_pos
     ex, ey = enemy_pos
