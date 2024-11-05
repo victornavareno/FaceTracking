@@ -17,3 +17,5 @@ An engaging game where the player must avoid randomly moving objects. The player
 
 - Used to detect and track facial landmarks (specifically the nose) in real-time.
 - Provides efficient and accurate face landmark detection to control player movement based on webcam input.
+
+#### AUTHOR: Victor Navareño
