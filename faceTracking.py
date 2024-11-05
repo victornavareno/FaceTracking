@@ -24,7 +24,7 @@ PLAYER_SIZE = 20
 # ENEMY STATS
 MAX_ENEMIES = 4  # NUMBER OF ENEMIES ON THE SCREEN
 ENEMY_SIZE = 40
-ENEMY_SPEED = 5 # SPEED OF THE ENEMY:  1 is the default value 4 IS CRAAAZY FAST 
+ENEMY_SPEED = 1 # SPEED OF THE ENEMY:  1 is the default value 4 IS CRAAAZY FAST 
 
 # Set the game clock
 clock = pygame.time.Clock()
