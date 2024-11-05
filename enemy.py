@@ -13,15 +13,14 @@ class Enemy:
         self.HEIGHT = HEIGHT
         self.SPEED = ENEMY_SPEED
         self.screen = screen
-        
 
         # posicion random del enemigo cuando spawnea
         self.x = random.randint(0, WIDTH - self.ENEMY_SIZE)
         self.y = random.randint(0, HEIGHT - self.ENEMY_SIZE)
 
-        # elige direccion random del enemigo (siempre la misma velocidad)
-        self.vx = random.choice([-2, 2])
-        self.vy = random.choice([-2, 2])
+        # elige direccion random del enemigo, 2 y 3 para q sea mas natural
+        self.vx = random.choice([-3, -2, 2, 3])
+        self.vy = random.choice([-3, -2, 2, 3])
 
     def move(self):
         # mueve el enemigo con una velocidad concreta
