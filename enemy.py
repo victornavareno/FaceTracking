@@ -6,13 +6,14 @@ class Enemy:
     ENEMY_COLOR = (255, 0, 0)
     
     #constructor del enemigo
-    def __init__(self, ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen):
+    def __init__(self, ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen, image):
 
         self.ENEMY_SIZE = ENEMY_SIZE
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
         self.SPEED = ENEMY_SPEED
         self.screen = screen
+        self.image = image
 
         # posicion random del enemigo cuando spawnea
         self.x = random.randint(0, WIDTH - self.ENEMY_SIZE)
@@ -34,7 +35,15 @@ class Enemy:
             self.vy = -self.vy
 
     def draw(self):
+        
+        # # dibujo el asteroide
+        # self.screen.blit(self.image, (self.x, self.y))
+        # pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.x, self.y, self.ENEMY_SIZE, self.ENEMY_SIZE))
+        #     # Draw the asteroid image centered at the enemy's position
         pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.x, self.y, self.ENEMY_SIZE, self.ENEMY_SIZE))
+        asteroid_x = self.x - self.image.get_width() // 2
+        asteroid_y = self.y - self.image.get_height() // 2
+        self.screen.blit(self.image, (asteroid_x, asteroid_y))
 
     def get_position(self):
         return [self.x, self.y]

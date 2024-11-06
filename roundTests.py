@@ -11,6 +11,7 @@ pygame.init()
 
 #ASSETS
 earth_image = pygame.image.load("img/earth.png")
+asteroid_image = pygame.image.load("img/asteroid.png")
 
 # Screen dimensions
 WIDTH, HEIGHT = 1000, 700
@@ -76,10 +77,10 @@ def handle_player_position(results):
             break
     return player_pos
 
+
 def initialize_enemies(round_number):
-    # Calculate the number of enemies: 4 + 2 * (round_number - 1)
     num_enemies = 4 + 2 * (round_number - 1)
-    return [enemy.Enemy(ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen) for _ in range(num_enemies)]
+    return [enemy.Enemy(ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen, asteroid_image) for _ in range(num_enemies)]
 
 def display_countdown(round_number, enemies, player_pos):
     # Display countdown on screen with frozen enemies and player position
@@ -113,6 +114,7 @@ def display_countdown(round_number, enemies, player_pos):
 
 def run_round(round_number):
     # Initialize enemies for the current round
+    
     enemies = initialize_enemies(round_number)
     round_time = 20000  # 20 seconds in milliseconds
     round_start_time = pygame.time.get_ticks()  # Record the start time of the round
