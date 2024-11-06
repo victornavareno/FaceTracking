@@ -18,9 +18,9 @@ class Enemy:
         self.x = random.randint(0, WIDTH - self.ENEMY_SIZE)
         self.y = random.randint(0, HEIGHT - self.ENEMY_SIZE)
 
-        # elige direccion random del enemigo, 2 y 3 para q sea mas natural
-        self.vx = random.choice([-3, -2, 2, 3])
-        self.vy = random.choice([-3, -2, 2, 3])
+        # elige direccion random del enemigo, 2, 3 y 4 para q sea mas natural y haya enemigos muy rapidos
+        self.vx = random.choice([-4, -3, -2, -2, 2, 3, 3])
+        self.vy = random.choice([-4, -3, -3, -2, 2, 3, 4])
 
     def move(self):
         # mueve el enemigo con una velocidad concreta

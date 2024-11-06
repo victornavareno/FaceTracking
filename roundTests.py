@@ -9,6 +9,9 @@ import enemy
 # Initialize pygame
 pygame.init()
 
+#ASSETS
+earth_image = pygame.image.load("img/earth.png")
+
 # Screen dimensions
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -22,9 +25,8 @@ RED = (255, 0, 0)
 PLAYER_SIZE = 20
 
 # ENEMY STATS
-MAX_ENEMIES = 4  # NUMBER OF ENEMIES ON THE SCREEN
 ENEMY_SIZE = 40
-ENEMY_SPEED = 5 # SPEED OF THE ENEMY:  1 is the default value 4 IS CRAAAZY FAST 
+ENEMY_SPEED = 1  # Speed of the enemy
 
 # Set the game clock
 clock = pygame.time.Clock()
@@ -38,6 +40,15 @@ cap = cv2.VideoCapture(0)  # 0 is typically the default camera
 # Initialize MediaPipe face mesh
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
+
+# Load loading screen image
+loading_image = pygame.image.load("img/test_hd.jpg")  # Replace with your image path
+loading_image = pygame.transform.scale(loading_image, (WIDTH, HEIGHT))
+
+def display_loading_screen():
+    screen.blit(loading_image, (0, 0))
+    pygame.display.update()
+    pygame.time.delay(5000)  # Display for 5 seconds
 
 def detect_collision(player_pos, enemy_pos):
     px, py = player_pos
@@ -70,11 +81,53 @@ def initialize_enemies(round_number):
     num_enemies = 4 + 2 * (round_number - 1)
     return [enemy.Enemy(ENEMY_SIZE, WIDTH, HEIGHT, ENEMY_SPEED, screen) for _ in range(num_enemies)]
 
+def display_countdown(round_number, enemies, player_pos):
+    # Display countdown on screen with frozen enemies and player position
+    for count in range(3, 0, -1):
+        # Display background
+        ret, frame = cap.read()
+        if not ret:
+            print("Failed to grab frame from camera.")
+            break
+
+        # Resize and flip the frame to fit the game window
+        frame = cv2.resize(frame, (WIDTH, HEIGHT))
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame_surface = pygame.surfarray.make_surface(np.rot90(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
+        screen.blit(frame_surface, (0, 0))
+
+        # Draw the player's tracked nose
+        pygame.draw.rect(screen, BLUE, (player_pos[0], player_pos[1], PLAYER_SIZE, PLAYER_SIZE))
+
+        # Draw stationary enemies
+        for enemy in enemies:
+            enemy.draw()
+
+        # Display countdown text in the center
+        countdown_text = font.render(f"ROUND {round_number} STARTING IN {count}...", True, RED)
+        screen.blit(countdown_text, (WIDTH // 2 - countdown_text.get_width() // 2, HEIGHT // 2 - countdown_text.get_height() // 2))
+        
+        # Update the display and wait for 1 second
+        pygame.display.update()
+        pygame.time.delay(1000)
+
 def run_round(round_number):
     # Initialize enemies for the current round
     enemies = initialize_enemies(round_number)
     round_time = 20000  # 20 seconds in milliseconds
     round_start_time = pygame.time.get_ticks()  # Record the start time of the round
+
+    # Capture a frame for the player position detection
+    ret, frame = cap.read()
+    if ret:
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = face_mesh.process(frame_rgb)
+        player_pos = handle_player_position(results)
+    else:
+        player_pos = (WIDTH // 2, HEIGHT // 2)  # Default to center if no frame
+
+    # Display the countdown before starting the round
+    display_countdown(round_number, enemies, player_pos)
 
     # Main round loop
     while True:
@@ -111,14 +164,18 @@ def run_round(round_number):
 
         # Draw player at nose position
         pygame.draw.rect(screen, BLUE, (player_pos[0], player_pos[1], PLAYER_SIZE, PLAYER_SIZE))
+        # Draw the Earth image at the player's position
+        screen.blit(earth_image, (player_pos[0], player_pos[1]))
 
-        # Move and draw enemies
-        for enemy in enemies:
-            enemy.move()
-            enemy.draw()
 
         # Calculate elapsed time for the current round
         elapsed_time = pygame.time.get_ticks() - round_start_time
+
+        # Only start moving enemies after the countdown (3 seconds)
+        if elapsed_time >= 3000:
+            for enemy in enemies:
+                enemy.move()
+                enemy.draw()
 
         # Check if 20 seconds have passed for the current round
         if elapsed_time >= round_time:
@@ -135,6 +192,7 @@ def run_round(round_number):
         clock.tick(30)
 
 def main_game():
+    display_loading_screen()  # Show the loading screen at the start
     round_number = 1
     while True:
         survived = run_round(round_number)
