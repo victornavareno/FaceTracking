@@ -9,25 +9,30 @@ import enemy
 # Initialize pygame
 pygame.init()
 
-#ASSETS
-earth_image = pygame.image.load("img/earth.png")
-asteroid_image = pygame.image.load("img/asteroid.png")
-
-# Screen dimensions
+# VARIABLES GLOBALES
 WIDTH, HEIGHT = 1000, 700
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Avoid the Red Squares")
 
-# Colors
+
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 
-# PLAYER SQUARE DIMENSION
-PLAYER_SIZE = 20
+PLAYER_SIZE = 60
 
-# ENEMY STATS
 ENEMY_SIZE = 40
 ENEMY_SPEED = 1  # Speed of the enemy
+
+### CARGANDO ASSETS ###
+# ASSET TIERRA 
+earth_image = pygame.image.load("img/earth.png")
+earth_image = pygame.transform.scale(earth_image, (PLAYER_SIZE*2, PLAYER_SIZE*2))
+
+# ASSET ASTEROIDE
+asteroid_image = pygame.image.load("img/asteroid.png")
+asteroid_image = pygame.transform.scale(asteroid_image, (ENEMY_SIZE*5, ENEMY_SIZE*5))
+#########################
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("SALVA LA TIERRA")
 
 # Set the game clock
 clock = pygame.time.Clock()
@@ -43,13 +48,13 @@ mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
 
 # Load loading screen image
-loading_image = pygame.image.load("img/test_hd.jpg")  # Replace with your image path
+loading_image = pygame.image.load("img/loading_screen.jpg")  # Replace with your image path
 loading_image = pygame.transform.scale(loading_image, (WIDTH, HEIGHT))
 
 def display_loading_screen():
     screen.blit(loading_image, (0, 0))
     pygame.display.update()
-    pygame.time.delay(5000)  # Display for 5 seconds
+    pygame.time.delay(1000)  # Display for 3 seconds
 
 def detect_collision(player_pos, enemy_pos):
     px, py = player_pos
@@ -167,7 +172,17 @@ def run_round(round_number):
         # Draw player at nose position
         pygame.draw.rect(screen, BLUE, (player_pos[0], player_pos[1], PLAYER_SIZE, PLAYER_SIZE))
         # Draw the Earth image at the player's position
-        screen.blit(earth_image, (player_pos[0], player_pos[1]))
+
+        # Center the asteroid on the red square
+        earth_width, earth_height = earth_image.get_size()  # Get the dimensions of the asteroid image
+        center_x = player_pos[0] + PLAYER_SIZE / 2
+        center_y = player_pos[1] + PLAYER_SIZE / 2
+
+        # Calculate the top-left position to center the asteroid
+        earth_x = center_x - earth_width / 2
+        earth_y = center_y - earth_height / 2
+
+        screen.blit(earth_image, (earth_x, earth_y))
 
 
         # Calculate elapsed time for the current round

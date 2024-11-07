@@ -37,13 +37,22 @@ class Enemy:
     def draw(self):
         
         # # dibujo el asteroide
-        # self.screen.blit(self.image, (self.x, self.y))
-        # pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.x, self.y, self.ENEMY_SIZE, self.ENEMY_SIZE))
-        #     # Draw the asteroid image centered at the enemy's position
+        
+        # Draw the red square (enemy)
         pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.x, self.y, self.ENEMY_SIZE, self.ENEMY_SIZE))
-        asteroid_x = self.x - self.image.get_width() // 2
-        asteroid_y = self.y - self.image.get_height() // 2
+
+        # Center the asteroid on the red square
+        asteroid_width, asteroid_height = self.image.get_size()  # Get the dimensions of the asteroid image
+        center_x = self.x + self.ENEMY_SIZE / 2
+        center_y = self.y + self.ENEMY_SIZE / 2
+
+        # Calculate the top-left position to center the asteroid
+        asteroid_x = center_x - asteroid_width / 2
+        asteroid_y = center_y - asteroid_height / 2
+
+        # Draw the asteroid centered on the square
         self.screen.blit(self.image, (asteroid_x, asteroid_y))
+
 
     def get_position(self):
         return [self.x, self.y]
