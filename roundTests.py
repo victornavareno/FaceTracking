@@ -10,8 +10,7 @@ import enemy
 pygame.init()
 
 # VARIABLES GLOBALES
-WIDTH, HEIGHT = 1000, 700
-
+WIDTH, HEIGHT = 1000, 700 # ANCHO Y ALTO DE LA PANTALLA
 
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
@@ -19,7 +18,7 @@ RED = (255, 0, 0)
 PLAYER_SIZE = 60
 
 ENEMY_SIZE = 40
-ENEMY_SPEED = 1  # Speed of the enemy
+ENEMY_SPEED = 3  # Speed of the enemy
 
 ### CARGANDO ASSETS ###
 # ASSET TIERRA 
@@ -48,7 +47,7 @@ mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
 
 # Load loading screen image
-loading_image = pygame.image.load("img/loading_screen.jpg")  # Replace with your image path
+loading_image = pygame.image.load("img/LOADING.png")  # Replace with your image path
 loading_image = pygame.transform.scale(loading_image, (WIDTH, HEIGHT))
 
 def display_loading_screen():
@@ -78,7 +77,7 @@ def handle_player_position(results):
             nose_tip = face_landmarks.landmark[1]
             nose_x = int((1 - nose_tip.x) * WIDTH)
             nose_y = int(nose_tip.y * HEIGHT)
-            player_pos = (nose_x, nose_y)
+            player_pos = ((nose_x -30), (nose_y -30))
             break
     return player_pos
 
@@ -98,12 +97,11 @@ def display_countdown(round_number, enemies, player_pos):
 
         # Resize and flip the frame to fit the game window
         frame = cv2.resize(frame, (WIDTH, HEIGHT))
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame_surface = pygame.surfarray.make_surface(np.rot90(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
         screen.blit(frame_surface, (0, 0))
 
         # Draw the player's tracked nose
-        pygame.draw.rect(screen, BLUE, (player_pos[0], player_pos[1], PLAYER_SIZE, PLAYER_SIZE))
+        #pygame.draw.rect(screen, BLUE, (player_pos[0], player_pos[1], PLAYER_SIZE, PLAYER_SIZE))
 
         # Draw stationary enemies
         for enemy in enemies:
