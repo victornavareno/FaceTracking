@@ -10,7 +10,7 @@ import enemy
 pygame.init()
 
 # VARIABLES GLOBALES
-WIDTH, HEIGHT = 1000, 700 # ANCHO Y ALTO DE LA PANTALLA
+WIDTH, HEIGHT = 1100, 800 # ANCHO Y ALTO DE LA PANTALLA
 
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
@@ -47,13 +47,13 @@ mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
 
 # Load loading screen image
-loading_image = pygame.image.load("img/LOADING.png")  # Replace with your image path
+loading_image = pygame.image.load("img/LOADING_SCREEN.png")  # Replace with your image path
 loading_image = pygame.transform.scale(loading_image, (WIDTH, HEIGHT))
 
 def display_loading_screen():
     screen.blit(loading_image, (0, 0))
     pygame.display.update()
-    pygame.time.delay(1000)  # Display for 3 seconds
+    pygame.time.delay(3000)  # Display for 3 seconds
 
 def detect_collision(player_pos, enemy_pos):
     px, py = player_pos
