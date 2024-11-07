@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/ed8215b8-df8b-48a8-9b5b-86340a326f9b)
+![image](https://github.com/user-attachments/assets/32242cae-c0ff-4e4e-8861-5673d459cdf8)
+
 
 # Face Tracking APP using OpenCV and MediaPipe
 
@@ -19,5 +20,8 @@ An engaging game where the player must avoid randomly moving objects. The player
 
 - Used to detect and track facial landmarks (specifically the nose) in real-time.
 - Provides efficient and accurate face landmark detection to control player movement based on webcam input.
+
+## PREVIEW OF THE GAME:
+![image](https://github.com/user-attachments/assets/b00281b6-1e65-49c8-a6db-0fa848a780ba)
 
 #### AUTHOR: Victor Navareño
