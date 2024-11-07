@@ -4,15 +4,15 @@ import sys
 import cv2
 import numpy as np
 
-# Initialize pygame
+
 pygame.init()
 
-# Screen dimensions
+# dimensiones de la pantalla
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Avoid the Red Squares")
 
-# Colors
+# Ccolores q usaremos
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 
