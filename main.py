@@ -59,11 +59,11 @@ def display_loading_screen():
     pygame.display.update()
     pygame.time.delay(3000)  # Display for 3 seconds
 
-def detect_collision(player_pos, ASTEROID_pos):
+def detect_collision(player_pos, asteroid_pos):
     px, py = player_pos
-    ex, ey = asteroid_pos
-    return (ex < px < ex + ASTEROID_SIZE or ex < px + PLAYER_SIZE < ex + ASTEROID_SIZE) and \
-           (ey < py < ey + ASTEROID_SIZE or ey < py + PLAYER_SIZE < ey + ASTEROID_SIZE)
+    ax, ay = asteroid_pos
+    return (ax < px < ax + ASTEROID_SIZE or ax < px + PLAYER_SIZE < ax + ASTEROID_SIZE) and \
+           (ay < py < ay + ASTEROID_SIZE or ay < py + PLAYER_SIZE < ay + ASTEROID_SIZE)
 
 def check_collisions(player_pos, asteroids):
     for asteroid in asteroids:
@@ -87,7 +87,7 @@ def handle_player_position(results):
 
 def initialize_asteroids(round_number):
     num_asteroids = 4 + 2 * (round_number - 1)
-    return [asteroid.ASTEROID(ASTEROID_SIZE, WIDTH, HEIGHT, ASTEROID_SPEED, screen, asteroid_image) for _ in range(num_asteroids)]
+    return [asteroid.Asteroid(ASTEROID_SIZE, WIDTH, HEIGHT, ASTEROID_SPEED, screen, asteroid_image) for _ in range(num_asteroids)]
 
 def display_countdown(round_number, asteroids):
     countdown_duration = 3000  # 3 segundos de cuenta atras
