@@ -1,3 +1,8 @@
+# AUTHOR: Victor Navareño 2024
+# Computer Vision - Face Tracking arcade game using OpenCV and MediaPipe
+# DESCRIPTION: This is the main file for the game. It contains the main game loop and the logic. SAVE THE F*CKING WORLD.
+# LICENSE: MIT
+
 import pygame
 import sys
 import cv2
@@ -5,9 +10,6 @@ import numpy as np
 import mediapipe as mp
 from entities import asteroid
 
-# AUTHOR: Victor Navareño 2024
-# DESCRIPTION: This is the main file for the game. It contains the main game loop and the logic. SAVE THE F*CKING WORLD.
-# LICENSE: MIT
 pygame.init()
 
 # VARIABLES GLOBALES
