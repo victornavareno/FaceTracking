@@ -3,7 +3,7 @@ import sys
 import cv2
 import numpy as np
 import mediapipe as mp
-import asteroid
+from entities import asteroid
 
 pygame.init()
 
@@ -221,8 +221,8 @@ def main_game():
     pygame.display.update()
     pygame.time.delay(5000)
 
-# Run the main game function
-main_game()
+
+main_game();
 
 cap.release()
 pygame.quit()
