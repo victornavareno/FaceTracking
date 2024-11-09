@@ -25,6 +25,11 @@ PLAYER_SIZE = 70
 ASTEROID_SIZE = 50
 ASTEROID_SPEED = 3  # velocidad de los asteroides
 
+# Lista de posiciones recientes de la nariz para suavizar el movimiento del jugador
+nose_positions = []
+SMOOTHING_FACTOR = 5  # Número de posiciones recientes para calcular el promedio
+######################
+
 ### CARGANDO ASSETS ###
 font_small = pygame.font.Font("fonts/SPACE.ttf", 30)  
 font_medium = pygame.font.Font("fonts/SPACE.ttf", 45)  
@@ -74,20 +79,50 @@ def check_collisions(player_pos, asteroids):
             return True
     return False
 
-def handle_player_position(results):
+# DESCOMENTAR ESTE METODO PARA UN TRACKING SIN SUAVIZADO
+# def handle_player_position(results):
 
-    # Posicion inicial del jugador si no detecta la nariz
+#     # Posicion inicial del jugador si no detecta la nariz
+#     player_pos = (WIDTH // 2, HEIGHT // 2)
+
+#     # actualizo basado en posicion d ela nariz
+#     if results.multi_face_landmarks:
+#         for face_landmarks in results.multi_face_landmarks:
+#             nose_tip = face_landmarks.landmark[1]
+#             nose_x = int((1 - nose_tip.x) * WIDTH)
+#             nose_y = int(nose_tip.y * HEIGHT)
+#             player_pos = ((nose_x - 30), (nose_y - 30))
+#             break
+#     return player_pos
+
+
+# EL METODO ANTERIOR HACE QUE EL TRACKING DE LA IMAGEN SEA BASTANTE IRREGULAR
+def handle_player_position(results):
     player_pos = (WIDTH // 2, HEIGHT // 2)
 
-    # actualizo basado en posicion d ela nariz
     if results.multi_face_landmarks:
         for face_landmarks in results.multi_face_landmarks:
             nose_tip = face_landmarks.landmark[1]
             nose_x = int((1 - nose_tip.x) * WIDTH)
             nose_y = int(nose_tip.y * HEIGHT)
-            player_pos = ((nose_x - 30), (nose_y - 30))
+
+            # Añade la posición actual de la nariz a la lista
+            nose_positions.append((nose_x, nose_y))
+
+            # Limita el tamaño de la lista para mantener las últimas N posiciones
+            if len(nose_positions) > SMOOTHING_FACTOR:
+                nose_positions.pop(0)
+
+            # Calcula el promedio de las posiciones recientes de la nariz
+            avg_nose_x = sum([pos[0] for pos in nose_positions]) // len(nose_positions)
+            avg_nose_y = sum([pos[1] for pos in nose_positions]) // len(nose_positions)
+
+            # Ajusta la posición del jugador usando la posición suavizada
+            player_pos = ((avg_nose_x - 30), (avg_nose_y - 30))
             break
+
     return player_pos
+
 
 def initialize_asteroids(round_number):
     num_asteroids = 4 + 2 * (round_number - 1)
@@ -116,9 +151,15 @@ def display_countdown(round_number, asteroids):
         frame = cv2.resize(frame, (WIDTH, HEIGHT))
         frame_surface = pygame.surfarray.make_surface(np.rot90(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
 
-        # OVERLAY DE LA CAMARA EN EL FONDO
+        # OVERLAY DE LA CAMARA EN EL FONDO (MAS DE 230 HACE QUE NO SE VE AL JUG, SOLO ALL PLANETA)
         screen.blit(frame_surface, (0, 0))
-        space_background.set_alpha(225)  # ajusta la transparencia aqui TRANSPARENCY ADJUSTMENT
+
+        #####################
+        # AQUI SE AJUSTA LA TRANSPARENCIA DE LA CAMARA
+        #space_background.set_alpha(220)  # ajusta la transparencia aqui TRANSPARENCY ADJUSTMENT
+        space_background.set_alpha(300)  # THE PLAYER ISNT SEEN WITH THIS SETTING
+        #####################
+
         screen.blit(space_background, (0, 0))
 
         # dibujo los asteroides quietos en la pantalla antes de iniciar la ronda
