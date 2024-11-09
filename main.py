@@ -252,9 +252,9 @@ def main_game():
     text_gameover = font_large.render("GAME OVER", True, WHITE)
     # pa imprimir las rondas que sobreviviste
     if round_number == 1:
-        text_game_stats = font_medium.render(f"You survived: {round_number} round", True, WHITE)
+        text_game_stats = font_medium.render(f"You survived {round_number} round", True, WHITE)
     else:
-        text_game_stats = font_medium.render(f"You survived: {round_number} rounds", True, WHITE)
+        text_game_stats = font_medium.render(f"You survived {round_number} rounds", True, WHITE)
 
     # horrible me lo ha hecho chatgpt y funciona
     screen.blit(text_game_stats, (WIDTH // 2 - text_game_stats.get_width() // 2, (HEIGHT // 2 - text_game_stats.get_height() // 2) + 90)).scale_by(6)
