@@ -3,7 +3,7 @@
 
 # Face Tracking APP using OpenCV and MediaPipe
 
-An engaging game where the player must avoid randomly moving objects. The player’s movement is controlled by tracking their face in real-time using their computer’s camera.
+An engaging game where the player must avoid randomly moving objects by physically moving himself in front of the camera. The player’s movement is controlled by tracking their face in real-time using a camera and computer vision.
 
 ## Technologies Used
 
